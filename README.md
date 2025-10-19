@@ -1,7 +1,5 @@
 # SOS Game Java Project
 
-###Project developed for **CS449**.  
-###Implements a multi-sprint **SOS Game** using java and Maven in IntelliJ IDEA.  
 ---
 
 ## Sprint Overview
