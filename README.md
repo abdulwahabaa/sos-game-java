@@ -34,7 +34,7 @@
 - **IDE:** IntelliJ IDEA
 - **Build Tool:** Maven
 - **Testing:** JUnit
-- **GUI:** JavaFX
+- **GUI:** Swing
 - **Version Control:** Git & GitHub
 
 ---
