@@ -32,10 +32,31 @@ public class GameLogic {
         if (board[row][col] != '\0') {
             System.out.println("Placement is already full");
             return false;
-            //Gives message to player if they place a place letter on top of another letter
+            //Gives message to player if they try to place a letter on top of another
         }
         board[row][col] = letter;
         nextTurn();
         return true;
     }
+
+    public void nextTurn() {
+        if (currentPlayer == Player.RED) {
+            currentPlayer = Player.BLUE;
+        }
+        else {
+            currentPlayer = Player.RED;
+        }
+        //Checks which players turn it is, if red then changes to blue
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+    public char[][] getBoard() {
+        return board;
+    }
+    public int getSize() {
+        return size;
+    }
+    //Getter methods
 }
