@@ -22,4 +22,20 @@ public class GameLogic {
         this.board = new char[size][size];
         this.size = size;
     }
+
+    public boolean playerMove (int row, int col, char letter ) {
+        if (row < 0 || row >= size || col < 0 || col >= size) {
+            System.out.println("Out of bounds");
+            return false;
+            //Gives message to player if they place a letter outside board
+        }
+        if (board[row][col] != '\0') {
+            System.out.println("Placement is already full");
+            return false;
+            //Gives message to player if they place a place letter on top of another letter
+        }
+        board[row][col] = letter;
+        nextTurn();
+        return true;
+    }
 }
