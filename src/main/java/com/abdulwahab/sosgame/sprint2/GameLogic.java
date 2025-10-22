@@ -14,7 +14,7 @@ public class GameLogic {
     private Player currentPlayer = Player.RED;
     //Track players turn, I chose red to start
 
-    public GameLogic(int size, char[][] board) {
+    public GameLogic(int size) {
         if (size < 3 ) {
             throw new IllegalArgumentException("Size must be greater than or equal to 3");
             //Creates minimum board size of 3
