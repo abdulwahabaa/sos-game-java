@@ -29,6 +29,34 @@ public class SosGameUI extends JFrame {
         //Game mode and board size
 
 
+        JPanel bluePanel = new JPanel();
+        bluePanel.setLayout(new BoxLayout(bluePanel, BoxLayout.Y_AXIS));
+        JRadioButton blueS = new JRadioButton("S", true);
+        JRadioButton blueO = new JRadioButton("O");
+        ButtonGroup blueGroup = new ButtonGroup();
+        blueGroup.add(blueS);
+        blueGroup.add(blueO);
+        bluePanel.add(new JLabel("Blue player"));
+        bluePanel.add(blueS);
+        bluePanel.add(blueO);
+        add(bluePanel, BorderLayout.WEST);
+        //Blue players controls
+
+        JPanel redPanel = new JPanel();
+        redPanel.setLayout(new BoxLayout(redPanel, BoxLayout.Y_AXIS));
+        JRadioButton redS = new JRadioButton("S", true);
+        JRadioButton redO = new JRadioButton("O");
+        ButtonGroup redGroup = new ButtonGroup();
+        redGroup.add(redS);
+        redGroup.add(redO);
+        redPanel.add(new JLabel("Red player"));
+        redPanel.add(redS);
+        redPanel.add(redO);
+        add(redPanel, BorderLayout.EAST);
+        //Red players controls
+
+
+
         pack();
         setLocationRelativeTo(null);
     }
