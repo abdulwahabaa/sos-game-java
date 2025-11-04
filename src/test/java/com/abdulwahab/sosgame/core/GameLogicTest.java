@@ -1,4 +1,4 @@
-package com.abdulwahab.sosgame.sprint2;
+package com.abdulwahab.sosgame.core;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

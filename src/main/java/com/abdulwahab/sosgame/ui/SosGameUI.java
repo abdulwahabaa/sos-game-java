@@ -1,4 +1,6 @@
-package com.abdulwahab.sosgame.sprint2;
+package com.abdulwahab.sosgame.ui;
+
+import com.abdulwahab.sosgame.core.GameLogic;
 
 import javax.swing.*;
 import java.awt.*;
