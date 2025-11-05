@@ -3,6 +3,8 @@ package com.abdulwahab.sosgame.ui;
 import com.abdulwahab.sosgame.core.GameLogic;
 import com.abdulwahab.sosgame.mode.SimpleGameMode;
 
+import javax.swing.*;
+
 public class SosGameApp {
     public static void main(String[] args) {
         GameLogic game = new GameLogic(8);
