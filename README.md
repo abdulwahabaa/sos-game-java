@@ -17,9 +17,13 @@
 - Implement game board setup and user input
 - Creation of separate UI and Game Logic
 
-#
 
 ### **Sprint 3 - Complete Simple/General games**
+- Add GameMode class hierarchy
+- Refactor GameLogic
+- Implement SOS detection
+- Game able to determine winner
+- Add New Game feature
 
 
 ### **Sprint 4 - Create Computer Opponent**
