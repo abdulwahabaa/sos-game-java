@@ -46,7 +46,19 @@ public class SosGameUI extends JFrame {
         modeGroup.add(simpleGame);
         modeGroup.add(generalGame);
 
-       boardSizeField = new JTextField(String.valueOf(game.getSize()), 3);
+        // Switch game mode immediately when selected
+        simpleGame.addActionListener(e -> {
+            game.setMode(new SimpleGameMode(game));
+            updateTurnLabel();
+        });
+
+        generalGame.addActionListener(e -> {
+            game.setMode(new GeneralGameMode(game));
+            updateTurnLabel();
+        });
+
+
+        boardSizeField = new JTextField(String.valueOf(game.getSize()), 3);
        //Shows current board
 
         topPanel.add(new JLabel("SOS"));
