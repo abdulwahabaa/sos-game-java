@@ -47,7 +47,7 @@ public class ComputerPlayer {
             return null;
         }
 
-        // Pick a random empty cell
+        // Picks a random empty cell
         int[] cell = emptyCells.get(random.nextInt(emptyCells.size()));
         char letter = random.nextBoolean() ? 'S' : 'O';
 

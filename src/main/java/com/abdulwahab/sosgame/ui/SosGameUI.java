@@ -131,6 +131,10 @@ public class SosGameUI extends JFrame {
         turnLabel = new JLabel("Current turn: " + game.getCurrentPlayer());
         bottomPanel.add(turnLabel, BorderLayout.WEST);
 
+        JButton autoPlayButton = new JButton("Auto Play");
+        autoPlayButton.addActionListener(e -> runComputerTurnsIfNeeded());
+        bottomPanel.add(autoPlayButton, BorderLayout.CENTER);
+
         JButton newGameButton = new JButton("New Game");
         newGameButton.addActionListener(e -> startNewGame());
         bottomPanel.add(newGameButton, BorderLayout.EAST);
