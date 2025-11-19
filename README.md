@@ -27,9 +27,9 @@
 
 
 ### **Sprint 4 - Create Computer Opponent**
--Support for playing against a computer opponents
--Both players can be a computer now
--UI was updated to include both
+- Support for playing against a computer opponents
+- Both players can be a computer now
+- UI was updated to include both
 
 
 ### **Sprint 5 - Record and Replay Feature**
