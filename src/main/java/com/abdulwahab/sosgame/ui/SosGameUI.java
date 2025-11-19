@@ -1,5 +1,6 @@
 package com.abdulwahab.sosgame.ui;
 
+import com.abdulwahab.sosgame.ai.ComputerPlayer;
 import com.abdulwahab.sosgame.core.GameLogic;
 import com.abdulwahab.sosgame.model.SOSLine;
 import com.abdulwahab.sosgame.mode.GeneralGameMode;
@@ -17,6 +18,9 @@ public class SosGameUI extends JFrame {
     private final GameLogic game;
     private final JButton[][] boardButtons;
     private final JLabel turnLabel;
+
+    private final JRadioButton blueHuman, blueComputer;
+    private final JRadioButton redHuman, redComputer;
 
     private final JRadioButton blueS, blueO, redS, redO;
     private final JRadioButton simpleGame, generalGame;
@@ -74,28 +78,49 @@ public class SosGameUI extends JFrame {
 
         JPanel bluePanel = new JPanel();
         bluePanel.setLayout(new BoxLayout(bluePanel, BoxLayout.Y_AXIS));
+
+        blueHuman = new JRadioButton("Human", true);
+        blueComputer = new JRadioButton("Computer");
+        ButtonGroup blueTypeGroup = new ButtonGroup();
+        blueTypeGroup.add(blueHuman);
+        blueTypeGroup.add(blueComputer);
+        //blue player type
+
         blueS = new JRadioButton("S", true);
         blueO = new JRadioButton("O");
         ButtonGroup blueGroup = new ButtonGroup();
         blueGroup.add(blueS);
         blueGroup.add(blueO);
+
         bluePanel.add(new JLabel("Blue player"));
+        bluePanel.add(blueHuman);
         bluePanel.add(blueS);
         bluePanel.add(blueO);
+        bluePanel.add(blueComputer);
         bluePanel.setBackground(Color.WHITE);
         add(bluePanel, BorderLayout.WEST);
         //Blue players controls
 
         JPanel redPanel = new JPanel();
         redPanel.setLayout(new BoxLayout(redPanel, BoxLayout.Y_AXIS));
+
+        redHuman = new JRadioButton("Human", true);
+        redComputer = new JRadioButton("Computer");
+        ButtonGroup redTypeGroup = new ButtonGroup();
+        redTypeGroup.add(redHuman);
+        redTypeGroup.add(redComputer);
+
         redS = new JRadioButton("S", true);
         redO = new JRadioButton("O");
         ButtonGroup redGroup = new ButtonGroup();
         redGroup.add(redS);
         redGroup.add(redO);
+
         redPanel.add(new JLabel("Red player"));
+        redPanel.add(redHuman);
         redPanel.add(redS);
         redPanel.add(redO);
+        redPanel.add(redComputer);
         redPanel.setBackground(Color.WHITE);
         add(redPanel, BorderLayout.EAST);
         //Red players controls
@@ -119,6 +144,9 @@ public class SosGameUI extends JFrame {
         if (game.getMode()==null){
             game.setMode(new SimpleGameMode(game));
         }
+
+        //if starting player is computer
+        runComputerTurnsIfNeeded();
     }   // default to simple game
 
     private void buildBoardLayer() {
@@ -138,7 +166,15 @@ public class SosGameUI extends JFrame {
                 btn.setBorder(BorderFactory.createLineBorder(new Color(180, 180, 180)));
 
                 int rr = r, cc = c;
-                btn.addActionListener((ActionEvent e) -> handleMove(rr, cc, btn));
+
+                btn.addActionListener((ActionEvent e) -> {
+                    if (!isCurrentPlayerHuman() || game.getMode().isGameOver()){
+                        return;
+                    }
+                    handleMove(rr, cc, btn, null);  //null is human; lettern form radios
+                    runComputerTurnsIfNeeded();
+                });
+
                 boardButtons[r][c] = btn;
                 boardPanel.add(btn);
             }
@@ -178,10 +214,19 @@ public class SosGameUI extends JFrame {
     }
 
 
-    private void handleMove(int row, int col, JButton button) {
-        char letter = (game.getCurrentPlayer() == GameLogic.Player.RED)
-                ? (redS.isSelected() ? 'S' : 'O')
-                : (blueS.isSelected() ? 'S' : 'O');
+    private void handleMove(int row, int col, JButton button, Character forcedLetter) {
+        if (game.getMode().isGameOver()) {
+            return;
+        }
+
+        char letter;
+        if (forcedLetter != null) {
+            letter = forcedLetter;
+        } else {
+            letter = (game.getCurrentPlayer() == GameLogic.Player.RED)
+                    ? (redS.isSelected() ? 'S' : 'O')
+                    : (blueS.isSelected() ? 'S' : 'O');
+        }
 
         // Remembers board state before move
         char before = game.getBoard()[row][col];
@@ -193,9 +238,12 @@ public class SosGameUI extends JFrame {
         boolean placed = (before == '\0') && (game.getBoard()[row][col] == letter);
 
         if (!placed) {
-            JOptionPane.showMessageDialog(this, "Invalid move! Try again.");
+            if (forcedLetter == null) {
+                JOptionPane.showMessageDialog(this, "Invalid move! Try again.");
+            }
             return;
         }
+
 
         // shows the letter
         button.setText(String.valueOf(letter));
@@ -215,6 +263,34 @@ public class SosGameUI extends JFrame {
             JOptionPane.showMessageDialog(this, (w == null) ? "Draw!" : (w + " wins!"));
         }
     }
+
+    private boolean isCurrentPlayerHuman() {
+        if (game.getCurrentPlayer() == GameLogic.Player.BLUE) {
+            return blueHuman.isSelected();
+        } else {
+            return redHuman.isSelected();
+        }
+    }// who is a human/computer
+
+    private boolean isCurrentPlayerComputer() {
+        if (game.getCurrentPlayer() == GameLogic.Player.BLUE) {
+            return blueComputer.isSelected();
+        } else {
+            return redComputer.isSelected();
+        }
+    }
+
+    private void runComputerTurnsIfNeeded() {
+        while (!game.getMode().isGameOver() && isCurrentPlayerComputer()) {
+            ComputerPlayer ai = new ComputerPlayer(game);
+            ComputerPlayer.Move move = ai.chooseMove();
+            if (move == null) {
+                return; // no legal moves
+            }
+            JButton btn = boardButtons[move.row][move.col];
+            handleMove(move.row, move.col, btn, move.letter);
+        }
+    }//let computer play its moves while it is the current player
 
 
     private void updateTurnLabel() {
